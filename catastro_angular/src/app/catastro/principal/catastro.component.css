@@ -1,0 +1,61 @@
+.catastro-form {
+  max-width: 300px;
+  display:flex;
+}
+
+.atras {
+  width: 40px;
+  background-color: rgb(255, 126, 25);
+}
+.mat-form-field {
+  max-width: 260px;
+}
+
+
+.inmueble{
+  max-width: 300px;
+  border: 1px solid rgb(207, 173, 77);
+  background-color: rgb(255, 242, 216);
+}
+.center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.inmueble-foto {
+  padding-top: 30px;
+  max-width: 280px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 5px;
+}
+ul > li {
+  font-size: 14px;
+}
+ul > li > strong {
+  padding-right: 5px;
+}
+hr {
+	border: 0;
+	border-top: 1px solid rgb(207, 173, 77);
+}
+
+a {
+  font-style: none;
+}
+
+button {
+  margin-right: 10px;
+}
+.certificado {
+  background-color: rgb(252, 199, 80);
+}
+.cambiar {
+  background-color: rgb(255, 126, 25);
+}
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}

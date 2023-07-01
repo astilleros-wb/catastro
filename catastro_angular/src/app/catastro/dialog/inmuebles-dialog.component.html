@@ -1,0 +1,54 @@
+
+
+
+<h2 mat-dialog-title>Selecciona un inmueble</h2>
+
+<div mat-dialog-content>
+
+    <mat-form-field appearance="fill" *ngIf="bloques_found.length > 1">
+      <mat-label>Bloque</mat-label>
+      <mat-select [formControl]="bloquesControl">
+        <mat-option *ngFor="let bloque of bloques_found" [value]="bloque">
+          {{bloque}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill" *ngIf="escaleras_found.length > 1">
+      <mat-label>Escalera</mat-label>
+      <mat-select [formControl]="escalerasControl">
+        <mat-option *ngFor="let escalera of escaleras_found" [value]="escalera">
+          {{escalera}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    
+    <mat-form-field appearance="fill" *ngIf="plantas_found.length > 1">
+      <mat-label>Planta</mat-label>
+      <mat-select [formControl]="plantasControl">
+        <mat-option *ngFor="let planta of plantas_found" [value]="planta">
+          {{planta}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill" *ngIf="puertas_found.length > 1">
+      <mat-label>Puerta</mat-label>
+      <mat-select [formControl]="puertasControl">
+        <mat-option *ngFor="let puerta of puertas_found" [value]="puerta">
+          {{puerta}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    
+  <mat-card *ngFor="let inmueble of inmuebles_found" (click)="clickInmueble(inmueble)" >
+    
+    <mat-card-title><strong> {{inmueble.referencia}}</strong></mat-card-title>
+    <mat-card-subtitle><strong *ngIf="inmueble.bloque"> Blq. {{inmueble.bloque}}</strong> <strong *ngIf="inmueble.escalera"> - Esc. {{inmueble.escalera}}</strong> <strong *ngIf="inmueble.planta"> - Plta. {{inmueble.planta}}</strong> <strong *ngIf="inmueble.puerta"> - Pt. {{inmueble.puerta}}</strong> <strong *ngIf="inmueble.uso"> - Uso {{inmueble.uso.slice(020)}}</strong> <strong *ngIf="inmueble.uso"> - ({{inmueble.m2_construidos}} m2) </strong></mat-card-subtitle>
+ </mat-card>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+</div>

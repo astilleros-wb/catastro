@@ -1,0 +1,102 @@
+<mat-card class="inmueble" *ngIf="actual != estados.inmueble">
+  <mat-card-content>
+    <form class="catastro-form">
+      <button mat-mini-fab color="warn" (click)="atras()" class="atras"><mat-icon>backspace</mat-icon></button>
+
+      <mat-form-field class="example-full-width" appearance="fill"
+        [style.display]="actual === estados.provincia? 'block' : 'none'">
+        <mat-label>Referencia o Provincia</mat-label>
+        <input type="text" matInput [formControl]="provinciasControl" [matAutocomplete]="provinciaAutocomplete">
+        <mat-autocomplete #provinciaAutocomplete="matAutocomplete" [displayWith]="displaySelect">
+          <mat-option *ngFor="let provincia of provincias_found" [value]="provincia"
+            (onSelectionChange)="provinciaSelectionChange(provincia)">
+            {{provincia.label}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" *ngIf="actual === estados.municipio">
+        <mat-label>Municipio</mat-label>
+        <input type="text" matInput [formControl]="municipiosControl" [matAutocomplete]="municipioAutocomplete">
+        <mat-autocomplete #municipioAutocomplete="matAutocomplete" [displayWith]="displaySelect">
+          <mat-option *ngFor="let municipio of municipios_found" [value]="municipio"
+            (onSelectionChange)="municipioSelectionChange(municipio)">
+            {{municipio.label}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-radio-group aria-label="" *ngIf="actual === estados.tipo" id='tipo'>
+        <mat-radio-button value="urbana" (click)="seleccionaUrbana()">Urbana</mat-radio-button>
+        <mat-radio-button value="rustica" (click)="seleccionaRustica()">Rustica</mat-radio-button>
+      </mat-radio-group>
+
+      <mat-form-field appearance="fill" *ngIf="tipo==='urbana' && actual === estados.via">
+        <mat-label>Via</mat-label>
+        <input type="text" matInput [formControl]="viasControl" [matAutocomplete]="viaAutocomplete">
+        <mat-autocomplete #viaAutocomplete="matAutocomplete" [displayWith]="displaySelect">
+          <mat-option *ngFor="let via of vias_found" [value]="via" (onSelectionChange)="viaSelectionChange(via)">
+            {{via.label}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" *ngIf="tipo==='urbana' && actual === estados.numero">
+        <mat-label>Número</mat-label>
+        <input type="text" matInput [formControl]="numerosControl" [matAutocomplete]="numero">
+        <mat-autocomplete #numero="matAutocomplete" [displayWith]="displaySelect">
+          <mat-option *ngFor="let numero of numeros" [value]="numero"
+            (onSelectionChange)="numeroSelectionChange(numero)">
+            {{numero.label}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" *ngIf="tipo ==='rustica' && actual === estados.rustica">
+        <mat-label>Polígono</mat-label>
+        <input type="number" matInput [formControl]="poligonoControl">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" *ngIf="tipo ==='rustica' && actual === estados.rustica">
+        <mat-label>Parcela</mat-label>
+        <input type="number" matInput [formControl]="parcelaControl">
+        <mat-icon matSuffix (click)="buscarRustica()">search</mat-icon>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+
+
+<mat-card class="inmueble" *ngIf="actual === estados.inmueble">
+  <mat-card-header (click)="detalle = !detalle">
+    <img mat-card-avatar src="assets/catastro/catastro.png">
+    <mat-card-title> <strong>{{inmueble.referencia}}</strong></mat-card-title>
+    <mat-card-subtitle *ngIf="inmueble.formato === 'urbana'">{{ inmueble.via}}, nº {{inmueble.numero}},
+      {{inmueble.municipio}} </mat-card-subtitle>
+    <mat-card-subtitle *ngIf="inmueble.formato === 'rustica'"><strong>Pol. {{inmueble.poligono}}, par.
+        {{inmueble.parcela}}, Paraje {{inmueble.paraje}}, {{inmueble.municipio}}</strong> </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions *ngIf="detalle" class="center">
+    <a mat-raised-button color="primary" href="{{inmueble.pdf_url}}" class="certificado">Certificado</a>
+    <button *ngIf="editable" mat-raised-button color="warn" (click)="editar()" class="cambiar">Cambiar</button>
+  </mat-card-actions>
+  <!--<div class="center"><img *ngIf="detalle" mat-card-image src="{{inmueble.foto}}" alt="Foto de catastro" class="inmueble-foto"></div> -->
+  <mat-card-content *ngIf="detalle">
+    <ul>
+      <hr>
+      <li *ngIf="inmueble.paraje"><strong>Paraje:</strong>{{inmueble.paraje}}</li>
+      <li *ngIf="inmueble.poligono"><strong>Polígono:</strong>{{inmueble.poligono}}</li>
+      <li *ngIf="inmueble.parcela"><strong>Parcela:</strong>{{inmueble.parcela}}</li>
+      <li *ngIf="inmueble.bloque"><strong>Bloque:</strong>{{inmueble.bloque}}</li>
+      <li *ngIf="inmueble.escalera"><strong>Escalera:</strong>{{inmueble.escalera}}</li>
+      <li *ngIf="inmueble.planta"><strong>Planta:</strong>{{inmueble.planta}}</li>
+      <li *ngIf="inmueble.puerta"><strong>Puerta:</strong>{{inmueble.puerta}}</li>
+      <hr>
+      <li *ngIf="inmueble.uso"><strong>Uso:</strong>{{inmueble.uso}}</li>
+      <li *ngIf="inmueble.m2_parcela"><strong>Metros parcela:</strong>{{inmueble.m2_parcela}}</li>
+      <li *ngIf="inmueble.m2_construidos"><strong>Metros construidos:</strong>{{inmueble.m2_construidos}}</li>
+      <li *ngIf="inmueble.antiguedad"><strong>Antiguedad:</strong>{{inmueble.antiguedad}}</li>
+    </ul>
+  </mat-card-content>
+</mat-card>
